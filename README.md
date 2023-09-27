@@ -1,1 +1,57 @@
-# LetsLearnUnrealEngineTogether_DevEnabled_3DPlatformerCharacterMovement
+# 【虚幻引擎一起学！】【Dev Enabled - 3D平台类游戏角色动作】Dev Enabled - 3D Platformer Character Movement
+
+![""](Images/Cover.png)
+
+## 【项目学习中】
+
+本项目学习的是Dev Enabled大佬发布在YouTube上的教程。
+
+该教程的主要内容是3D平台类游戏的角色动作的功能实现，主要使用的是蓝图来编写逻辑。
+
+阿严将在学习过程中尝试将大部分的逻辑都转成C++，并实现C++和蓝图之间较好的通信。
+
+因此，本学习项目的一个重点就是如何结合C++以及蓝图，尽力做到这两者之间的均衡。
+
+本项目的另一个学习重点则是动画蓝图（Animation Blueprint）相关的知识。
+
+---
+---
+
+- 本项目GitHub仓库：<https://github.com/AtCloudStudio/LetsLearnUnrealEngineTogether_DevEnabled_3DPlatformerCharacterMovement>
+
+---
+
+- Dev Enabled的YouTube频道：<https://www.youtube.com/@DevEnabled>
+- 本项目所学习的教程播放列表：<https://youtube.com/playlist?lis=PL9z3tc0RL6Z5Yi7-W8qxjrzTb6tHS_UAK&si=l8scLt08sLGkwLhi>
+- 本项目初始工程文件下载: <https://devenabled.itch.io/devvy-channel-mascot-project>
+
+---
+
+- 阿严的YouTube频道：<https://www.youtube.com/@RYanIndieDev/channels>
+- 阿严的B站主页：<https://space.bilibili.com/27164588/>
+
+---
+
+【帮助我走得更远，阿严需要你的赞助】
+
+- Patreon: <https://youtube.com/live/M4NlC4bywSY>
+- 爱发电：<https://afdian.net/a/RYanIndieDev>
+
+---
+---
+
+【Ep.01】
+
+- 直播时间：2023年9月27日
+
+- YouTube: <https://youtube.com/live/crXqddb5vjg>
+- Bilibili: <>
+
+主要内容：
+
+1. 创建新项目，项目设置和编辑器偏好设置
+2. 虚幻引擎里如何进行资产的迁移与导出
+3. 创建增强输入(Enhanced Input)的输入动作文件(Input Actions)与输入映射上下文(Input Mapping Context)文件
+4. 输入按键绑定
+5. 初识角色动作组件(Character Movement Component)
+6. 使用角色动作组件实现角色移动与镜头控制（蓝图逻辑）
