@@ -22,7 +22,7 @@
 ---
 
 - Dev Enabled的YouTube频道：<https://www.youtube.com/@DevEnabled>
-- 本项目所学习的教程播放列表：<https://youtube.com/playlist?lis=PL9z3tc0RL6Z5Yi7-W8qxjrzTb6tHS_UAK&si=l8scLt08sLGkwLhi>
+- 本项目所学习的教程播放列表：<https://youtube.com/playlist?list=PL9z3tc0RL6Z5Yi7-W8qxjrzTb6tHS_UAK&si=HZbqnjORa4u3Da9l>
 - 本项目初始工程文件下载: <https://devenabled.itch.io/devvy-channel-mascot-project>
 
 ---
@@ -43,9 +43,8 @@
 【Ep.01】
 
 - 直播时间：2023年9月27日
-
 - YouTube: <https://youtube.com/live/crXqddb5vjg>
-- Bilibili: <>
+- Bilibili: <https://www.bilibili.com/video/BV16m4y1V7mY>
 
 主要内容：
 
@@ -55,3 +54,37 @@
 4. 输入按键绑定
 5. 初识角色动作组件(Character Movement Component)
 6. 使用角色动作组件实现角色移动与镜头控制（蓝图逻辑）
+
+---
+
+【Ep.02】
+
+- 直播时间：2023年9月28日
+- YouTube: <https://youtube.com/live/LuAcJ3nx3T8>
+- Bilibili: <https://www.bilibili.com/video/BV1rN4y1Z73R>
+
+主要内容：
+
+1. 如何将蓝图逻辑转换成C++源码
+2. 如何实现C++与蓝图之间的通信（互相调用）
+3. 实现基础的跳跃(Basic Jump)
+4. 实现小跳(Variable Height Jump)
+5. 实现二段跳(Double Jump)
+6. 实现慢走(Walk)
+
+---
+
+【Ep.03】
+
+- 直播时间：2023年9月29日
+- YouTube: <https://youtube.com/live/LuAcJ3nx3T8>
+- Bilibili: <>
+
+主要内容：
+
+1. 实现冲刺(Sprint)
+2. 如何实现蹲伏(Crouch)
+3. 创建动画蓝图(Anim Blueprint)
+4. 创建自定义动画蓝图C++类
+5. 使用动画状态机(State Machine)
+6. 使用混合空间(Blend Space)实现平滑自然的动画转换
