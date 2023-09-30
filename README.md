@@ -34,7 +34,7 @@
 
 【帮助我走得更远，阿严需要你的赞助】
 
-- Patreon: <https://youtube.com/live/M4NlC4bywSY>
+- Patreon: <https://www.patreon.com/RYanIndieDev>
 - 爱发电：<https://afdian.net/a/RYanIndieDev>
 
 ---
@@ -77,7 +77,7 @@
 【Ep.03】
 
 - 直播时间：2023年9月29日
-- YouTube: <https://youtube.com/live/LuAcJ3nx3T8>
+- YouTube: <https://youtube.com/live/YxMMjOicMU0>
 - Bilibili: <>
 
 主要内容：
