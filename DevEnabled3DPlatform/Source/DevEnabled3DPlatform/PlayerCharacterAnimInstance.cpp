@@ -24,4 +24,6 @@ void UPlayerCharacterAnimInstance::UpdateParameters()
 	IsJumping = PlayerCharacter->GetIsJumping();
 	IsAirJumping = PlayerCharacter->GetIsAirJumping();
 	IsFalling = PlayerCharacter->GetIsFalling();
+	IsWallSliding = PlayerCharacter->GetIsWallSliding();
+	IsGrounded = PlayerCharacter->GetIsGrounded();
 }

@@ -107,3 +107,21 @@
 6. Bug修复
 7. 手感和动画的微调
 8. 动画蒙太奇(Anim Montage)的概念和原理
+
+---
+
+【Ep.05】
+
+- 直播时间：2023年9月30日
+- YouTube: <https://youtube.com/live/sjpTsHjzCXs>
+- Bilibili: <>
+
+主要内容：
+
+1. 墙壁检测(WallCheck)的实现
+2. 两种不同的检测方法：CapsuleTraceByChannel节点与SweepSingleByChannel
+3. 对象标签(Actor Tag)与标签的作用
+4. 滑墙(Wall Slide)的实现
+5. 添加滑墙动画状态
+6. 向量插值运算函数VInterpTo()
+7. 如何在C++里实现类似蓝图节点DoOnce功能

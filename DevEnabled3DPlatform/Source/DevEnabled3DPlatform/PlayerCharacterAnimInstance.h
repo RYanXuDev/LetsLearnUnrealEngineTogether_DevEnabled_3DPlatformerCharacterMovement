@@ -28,6 +28,12 @@ private:
 	bool IsFalling;
 	
 	UPROPERTY(BlueprintReadOnly, Category = "Parameters", meta=(AllowPrivateAccess = "true"))
+	bool IsWallSliding;
+	
+	UPROPERTY(BlueprintReadOnly, Category = "Parameters", meta=(AllowPrivateAccess = "true"))
+	bool IsGrounded;
+	
+	UPROPERTY(BlueprintReadOnly, Category = "Parameters", meta=(AllowPrivateAccess = "true"))
 	float MoveSpeed;
 
 	UPROPERTY()
