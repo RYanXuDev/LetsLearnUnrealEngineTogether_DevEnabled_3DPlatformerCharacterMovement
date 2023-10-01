@@ -112,7 +112,7 @@
 
 【Ep.05】
 
-- 直播时间：2023年9月30日
+- 直播时间：2023年10月01日
 - YouTube: <https://youtube.com/live/sjpTsHjzCXs>
 - Bilibili: <>
 
