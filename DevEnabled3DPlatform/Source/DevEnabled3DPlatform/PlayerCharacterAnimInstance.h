@@ -11,18 +11,21 @@ class DEVENABLED3DPLATFORM_API UPlayerCharacterAnimInstance : public UAnimInstan
 {
 	GENERATED_BODY()
 
+public:
+	virtual void NativeUpdateAnimation(float DeltaSeconds) override;
+
 protected:
 	virtual void NativeBeginPlay() override;
-
-public:
-	FORCEINLINE void SetIsJumping(const bool InValue) { IsJumping = InValue; }
 
 private:
 	UPROPERTY(BlueprintReadOnly, Category = "Parameters", meta=(AllowPrivateAccess = "true"))
 	bool IsJumping;
 
 	UPROPERTY(BlueprintReadOnly, Category = "Parameters", meta=(AllowPrivateAccess = "true"))
-	bool IsInAir;
+	bool IsAirJumping;
+
+	UPROPERTY(BlueprintReadOnly, Category = "Parameters", meta=(AllowPrivateAccess = "true"))
+	bool IsFalling;
 	
 	UPROPERTY(BlueprintReadOnly, Category = "Parameters", meta=(AllowPrivateAccess = "true"))
 	float MoveSpeed;
@@ -30,6 +33,5 @@ private:
 	UPROPERTY()
 	APlayerCharacter* PlayerCharacter;
 
-	UFUNCTION(BlueprintCallable)
 	void UpdateParameters();
 };

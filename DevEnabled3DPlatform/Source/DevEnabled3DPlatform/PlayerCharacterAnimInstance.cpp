@@ -9,11 +9,19 @@ void UPlayerCharacterAnimInstance::NativeBeginPlay()
 	PlayerCharacter = Cast<APlayerCharacter>(TryGetPawnOwner());
 }
 
+void UPlayerCharacterAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
+{
+	Super::NativeUpdateAnimation(DeltaSeconds);
+
+	UpdateParameters();
+}
+
 void UPlayerCharacterAnimInstance::UpdateParameters()
 {
 	if (PlayerCharacter == nullptr) return;
 
 	MoveSpeed = PlayerCharacter->GetVelocity().Length();
 	IsJumping = PlayerCharacter->GetIsJumping();
-	IsInAir = PlayerCharacter->GetIsInAir();
+	IsAirJumping = PlayerCharacter->GetIsAirJumping();
+	IsFalling = PlayerCharacter->GetIsFalling();
 }

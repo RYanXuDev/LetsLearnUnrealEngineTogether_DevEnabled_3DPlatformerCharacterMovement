@@ -26,9 +26,9 @@ APlayerCharacter::APlayerCharacter()
 	CameraComponent->SetupAttachment(SpringArmComponent);
 
 	GetCharacterMovement()->bOrientRotationToMovement = true;
-	GetCharacterMovement()->GravityScale = 4.0f;
-	GetCharacterMovement()->JumpZVelocity = 1000.0f;
-	GetCharacterMovement()->AirControl = 1.0f;
+	GetCharacterMovement()->GravityScale = 3.0f;
+	GetCharacterMovement()->JumpZVelocity = 850.0f;
+	GetCharacterMovement()->AirControl = 0.7f;
 }	
 
 void APlayerCharacter::BeginPlay()
@@ -36,6 +36,8 @@ void APlayerCharacter::BeginPlay()
 	Super::BeginPlay();
 
 	DefaultMovementSpeed = GetCharacterMovement()->MaxWalkSpeed;
+	
+	LandedDelegate.AddDynamic(this, &APlayerCharacter::OnCharacterLanded);
 }
 
 void APlayerCharacter::Tick(float DeltaTime)
@@ -53,10 +55,40 @@ void APlayerCharacter::MoveRight(const float InputValue)
 	AddMovementInput(GetMovementDirection(FVector::RightVector), InputValue);
 }
 
-void APlayerCharacter::DoJump()
+void APlayerCharacter::GroundJump()
 {
 	Jump();
 	IsJumping = true;
+	JumpCount++;
+}
+
+void APlayerCharacter::AirJump()
+{
+	Jump();
+	IsJumping = false;
+	IsAirJumping = true;
+	JumpCount++;
+}
+
+void APlayerCharacter::DoJump()
+{
+	// if (IsWallingSling)
+	// {
+	// 	WallJump();
+	// 	return;
+	// }
+	
+	if (GetMovementComponent()->IsMovingOnGround())
+	{
+		GroundJump();
+
+		return;
+	}
+
+	if (JumpCount < JumpMaxCount)
+	{
+		AirJump();
+	}
 }
 
 void APlayerCharacter::Walk()
@@ -74,12 +106,20 @@ void APlayerCharacter::ResetMoveSpeed()
 	GetCharacterMovement()->MaxWalkSpeed = DefaultMovementSpeed;
 }
 
+void APlayerCharacter::OnCharacterLanded(const FHitResult& Hit)
+{
+	IsJumping = false;
+	IsAirJumping = false;
+	JumpCount = 0;
+}
+
 FVector APlayerCharacter::GetMovementDirection(const FVector& InVector) const
 {
 	return FRotator(0.0f, GetControlRotation().Yaw, 0.0f).RotateVector(InVector);
 }
 
-bool APlayerCharacter::GetIsInAir() const
+bool APlayerCharacter::GetIsFalling()
 {
-	return GetCharacterMovement()->IsFalling();
+	IsAirJumping = false;
+	return GetCharacterMovement()->IsFalling() && GetVelocity().Z < 0.0f;
 }

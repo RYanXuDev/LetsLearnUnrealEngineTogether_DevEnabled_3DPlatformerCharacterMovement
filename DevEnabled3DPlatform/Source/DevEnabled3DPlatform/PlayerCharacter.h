@@ -22,9 +22,10 @@ protected:
 public:	
 	virtual void Tick(float DeltaTime) override;
 
-	bool GetIsInAir() const;
+	bool GetIsFalling();
 
 	FORCEINLINE bool GetIsJumping() const { return IsJumping; }
+	FORCEINLINE bool GetIsAirJumping() const { return IsAirJumping; }
 
 private:
 	UPROPERTY(VisibleDefaultsOnly, Category = "Components", meta=(AllowPrivateAccess = "true"))
@@ -36,7 +37,10 @@ private:
 	UPROPERTY(VisibleDefaultsOnly, Category = "Components", meta=(AllowPrivateAccess = "true"))
 	UCameraComponent* CameraComponent;
 
+	int32 JumpCount;
+	
 	bool IsJumping;
+	bool IsAirJumping;
 	
 	float DefaultMovementSpeed;
 
@@ -51,6 +55,8 @@ private:
 	
 	UFUNCTION(BlueprintCallable)
 	void MoveRight(const float InputValue);
+	void AirJump();
+	void GroundJump();
 
 	UFUNCTION(BlueprintCallable)
 	void DoJump();
@@ -63,6 +69,9 @@ private:
 
 	UFUNCTION(BlueprintCallable)
 	void ResetMoveSpeed();
+
+	UFUNCTION()
+	void OnCharacterLanded(const FHitResult& Hit);
 	
 	FVector GetMovementDirection(const FVector& InVector) const;
 };
