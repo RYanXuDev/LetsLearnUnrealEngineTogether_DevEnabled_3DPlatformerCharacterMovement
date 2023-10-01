@@ -78,7 +78,7 @@
 
 - 直播时间：2023年9月29日
 - YouTube: <https://youtube.com/live/YxMMjOicMU0>
-- Bilibili: <>
+- Bilibili: <https://www.bilibili.com/video/BV1Uw411m7AN>
 
 主要内容：
 
@@ -88,3 +88,22 @@
 4. 创建自定义动画蓝图C++类
 5. 使用动画状态机(State Machine)
 6. 使用混合空间(Blend Space)实现平滑自然的动画转换
+
+---
+
+【Ep.04】
+
+- 直播时间：2023年9月30日
+- YouTube: <https://youtube.com/live/Twnhjui2nkg>
+- Bilibili: <>
+
+主要内容：
+
+1. 地面各个动画状态（空闲Idle/走路Walk/跑步Run/冲刺Sprint）之间的切换
+2. 添加跳跃(JumpUp)动画状态
+3. 添加掉落(Fall)动画状态
+4. 添加着地(Land)动画状态（使用混合空间）
+5. 添加二段跳(Air Jump)动画状态
+6. Bug修复
+7. 手感和动画的微调
+8. 动画蒙太奇(Anim Montage)的概念和原理
