@@ -146,7 +146,7 @@
 
 【Ep.07】
 
-- 直播时间：2023年10月02日
+- 直播时间：2023年10月03日
 - YouTube: <https://youtube.com/live/bMrNxRAgXpE>
 - Bilibili: <>
 
