@@ -29,6 +29,12 @@ private:
 	
 	UPROPERTY(BlueprintReadOnly, Category = "Parameters", meta=(AllowPrivateAccess = "true"))
 	bool IsWallSliding;
+
+	UPROPERTY(BlueprintReadOnly, Category = "Parameters", meta=(AllowPrivateAccess = "true"))
+	bool IsSliding;
+	
+	UPROPERTY(BlueprintReadOnly, Category = "Parameters", meta=(AllowPrivateAccess = "true"))
+	bool IsWallJumping;
 	
 	UPROPERTY(BlueprintReadOnly, Category = "Parameters", meta=(AllowPrivateAccess = "true"))
 	bool IsGrounded;

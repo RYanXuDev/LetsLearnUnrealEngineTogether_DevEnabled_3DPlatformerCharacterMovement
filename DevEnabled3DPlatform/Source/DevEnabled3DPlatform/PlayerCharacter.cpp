@@ -15,6 +15,8 @@ APlayerCharacter::APlayerCharacter()
 
 	GetMesh()->SetRelativeLocation(FVector(0.0f, 0.0f, -GetCapsuleComponent()->GetScaledCapsuleHalfHeight()));
 
+	GetCapsuleComponent()->SetCapsuleRadius(25.0f);
+
 	MaskMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mask Mesh"));
 	MaskMeshComponent->SetupAttachment(GetMesh(), FName("head_001Socket"));
 
@@ -22,14 +24,23 @@ APlayerCharacter::APlayerCharacter()
 	SpringArmComponent->SetupAttachment(RootComponent);
 	SpringArmComponent->bUsePawnControlRotation = true;
 	SpringArmComponent->TargetArmLength = 600.0f;
+	SpringArmComponent->bEnableCameraLag = true;
+	SpringArmComponent->bEnableCameraRotationLag = true;
+	SpringArmComponent->CameraRotationLagSpeed = 20.0f;
 
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	CameraComponent->SetupAttachment(SpringArmComponent);
 
+	GetCharacterMovement()->GetNavAgentPropertiesRef().bCanCrouch = true;
 	GetCharacterMovement()->bOrientRotationToMovement = true;
-	GetCharacterMovement()->GravityScale = 3.0f;
-	GetCharacterMovement()->JumpZVelocity = 850.0f;
-	GetCharacterMovement()->AirControl = 0.7f;
+	GetCharacterMovement()->GravityScale = 4.0f;
+	GetCharacterMovement()->JumpZVelocity = 800.0f;
+	GetCharacterMovement()->AirControl = 1.0f;
+	GetCharacterMovement()->MaxAcceleration = 1500;
+	GetCharacterMovement()->BrakingFrictionFactor = 0.1f;
+	GetCharacterMovement()->MaxWalkSpeedCrouched = 1200.0f;
+	GetCharacterMovement()->RotationRate = FRotator(0.0f, 720.0f, 0.0f);
+	GetCharacterMovement()->SetCrouchedHalfHeight(50.0f);
 }
 
 void APlayerCharacter::BeginPlay()
@@ -45,6 +56,14 @@ void APlayerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if (IsAirJumping)
+	{
+		if (GetVelocity().Z < 0.0f)
+		{
+			IsAirJumping = false;
+		}
+	}
+	
 	WallSlideCheck();
 
 	if (IsWallSliding)
@@ -53,18 +72,37 @@ void APlayerCharacter::Tick(float DeltaTime)
 	}
 	else
 	{
-		// HasZVelocityReset = false;
+		HasZVelocityReset = false;
 		GetCharacterMovement()->GravityScale = DefaultGravityScale;
+	}
+
+	if (IsSliding)
+	{
+		AddMovementInput(SlideDirection);
+	}
+
+	FString HitWallText;
+	
+	if (IsHeadBlocked)
+	{
+		if (!IsHeadHitWall())
+		{
+			StopSliding();
+		}
 	}
 }
 
 void APlayerCharacter::MoveForward(const float InputValue)
 {
+	if (IsSliding) return;
+
 	AddMovementInput(GetMovementDirection(FVector::ForwardVector), InputValue);
 }
 
 void APlayerCharacter::MoveRight(const float InputValue)
 {
+	if (IsSliding) return;
+
 	AddMovementInput(GetMovementDirection(FVector::RightVector), InputValue);
 }
 
@@ -72,26 +110,42 @@ void APlayerCharacter::GroundJump()
 {
 	Jump();
 	IsJumping = true;
-	JumpCount++;
 }
 
 void APlayerCharacter::AirJump()
 {
-	Jump();
-	IsJumping = false;
+	ResetZVelocity();
+	
+	const FVector NewVelocity = GetVelocity() + FVector(0.0f, 0.0f, AirJumpForce);
+	
+	LaunchCharacter(NewVelocity, true, true);
 	IsAirJumping = true;
-	JumpCount++;
 }
 
 void APlayerCharacter::WallJump()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Blue, __FUNCTION__);
+	ResetZVelocity();
+
+	const FVector ForwardVelocity = GetActorForwardVector() * WallJumpVelocity.X * -1.0f;
+	const FVector UpwardsVelocity = WallJumpVelocity.Z * FVector::UpVector;
+	const FVector NewVelocity = ForwardVelocity + UpwardsVelocity;
+	
+	LaunchCharacter(NewVelocity, true, true);
+
+	FRotator NewRotation = NewVelocity.Rotation();
+	NewRotation.Pitch = 0.0f;
+	NewRotation.Roll = 0.0f;
+	
+	SetActorRotation(NewRotation);
+	
+	IsWallJumping = true;
 }
 
 void APlayerCharacter::DoJump()
 {
-	if (JumpCount >= JumpMaxCount) return;
+	if (JumpCount >= JumpMaxCount || IsSliding) return;
 	
+	JumpCount++;
 	GetCharacterMovement()->GravityScale = DefaultGravityScale;
 	
 	if (IsWallSliding)
@@ -104,10 +158,10 @@ void APlayerCharacter::DoJump()
 	if (GetMovementComponent()->IsFalling())
 	{
 		AirJump();
-
+	
 		return;
 	}
-
+	
 	GroundJump();
 }
 
@@ -131,7 +185,7 @@ void APlayerCharacter::ResetZVelocity(const bool DoOnce)
 
 void APlayerCharacter::WallSlide(const float DeltaTime)
 {
-	ResetZVelocity();
+	IsWallJumping = false;
 	JumpCount = JumpMaxCount - 1;
 
 	const FVector TargetVelocity = FVector(0.0f, 0.0f, GetVelocity().Z);
@@ -144,10 +198,52 @@ void APlayerCharacter::WallSlide(const float DeltaTime)
 
 	SetActorRotation(NewRotation);
 
-	if (GetVelocity().Z < 0.0f)
-	{
-		GetCharacterMovement()->GravityScale = WallSlideGravityScale;
-	}
+	if (GetVelocity().Z >= 0.0f) return;
+
+	ResetZVelocity();
+	GetCharacterMovement()->GravityScale = WallSlideGravityScale;
+}
+
+void APlayerCharacter::Slide()
+{
+	if (!GetMovementComponent()->IsMovingOnGround()) return;
+		
+	Crouch();
+	SlideDirection = GetActorForwardVector();
+	IsSliding = true;
+
+	FTimerHandle SlideTimerHandle;
+	
+	GetWorldTimerManager().SetTimer(SlideTimerHandle, this, &APlayerCharacter::StopSliding, SlideDuration);
+}
+
+void APlayerCharacter::StopSliding()
+{
+	IsHeadBlocked = IsHeadHitWall();
+	
+	if (IsHeadBlocked) return;
+		
+	UnCrouch();
+	IsSliding = false;
+}
+
+bool APlayerCharacter::IsHeadHitWall() const
+{
+	FHitResult HitResult;
+
+	FCollisionQueryParams Params;
+	Params.AddIgnoredActor(this);
+
+	FVector TraceEnd = GetActorLocation() + 100.0f * FVector::UpVector;
+	
+	GetWorld()->LineTraceSingleByChannel(
+		HitResult,
+		GetActorLocation(),
+		TraceEnd,
+		ECC_Visibility,
+		Params);
+
+	return HitResult.bBlockingHit && HitResult.GetActor()->ActorHasTag(WallCheckTag);
 }
 
 void APlayerCharacter::ResetMoveSpeed()
@@ -162,6 +258,7 @@ void APlayerCharacter::OnCharacterLanded(const FHitResult& Hit)
 	IsWallSliding = false;
 	HasZVelocityReset = false;
 	JumpCount = 0;
+	GetCharacterMovement()->GravityScale = DefaultGravityScale;
 }
 
 void APlayerCharacter::InitializeProperties()
@@ -170,7 +267,7 @@ void APlayerCharacter::InitializeProperties()
 	DefaultGravityScale = GetCharacterMovement()->GravityScale;
 
 	WallCheckCapsule = FCollisionShape::MakeCapsule(
-		GetCapsuleComponent()->GetScaledCapsuleRadius() + 1.0f,
+		GetCapsuleComponent()->GetScaledCapsuleRadius() + 5.0f,
 		GetCapsuleComponent()->GetScaledCapsuleHalfHeight());
 	
 	QueryParams.AddIgnoredActor(this);
@@ -207,9 +304,8 @@ FVector APlayerCharacter::GetMovementDirection(const FVector& InVector) const
 	return FRotator(0.0f, GetControlRotation().Yaw, 0.0f).RotateVector(InVector);
 }
 
-bool APlayerCharacter::GetIsFalling()
+bool APlayerCharacter::GetIsFalling() const
 {
-	IsAirJumping = false;
 	return GetCharacterMovement()->IsFalling() && GetVelocity().Z < 0.0f;
 }
 
