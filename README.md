@@ -2,7 +2,7 @@
 
 ![""](Images/Cover.png)
 
-## 【项目学习中】
+## 【项目学习完成】
 
 本项目学习的是Dev Enabled大佬发布在YouTube上的教程。
 
