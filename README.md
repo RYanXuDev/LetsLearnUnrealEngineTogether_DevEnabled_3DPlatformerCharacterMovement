@@ -114,7 +114,7 @@
 
 - 直播时间：2023年10月01日
 - YouTube: <https://youtube.com/live/sjpTsHjzCXs>
-- Bilibili: <>
+- Bilibili: <https://www.bilibili.com/video/BV1ku411u7wh>
 
 主要内容：
 
@@ -125,3 +125,42 @@
 5. 添加滑墙动画状态
 6. 向量插值运算函数VInterpTo()
 7. 如何在C++里实现类似蓝图节点DoOnce功能
+
+---
+
+【Ep.06】
+
+- 直播时间：2023年10月02日
+- YouTube: <https://youtube.com/live/S8Z6-eIONiM>
+- Bilibili: <>
+
+主要内容：
+
+1. 自定义跳跃的实现(LaunchCharacter()函数的应用)
+2. 蹬墙跳(Wall Jump)的实现
+3. 添加蹬墙跳动画状态
+4. 蹬墙跳时角色的转向
+5. 项目清理(Project Tidy)
+
+---
+
+【Ep.07】
+
+- 直播时间：2023年10月02日
+- YouTube: <https://youtube.com/live/bMrNxRAgXpE>
+- Bilibili: <>
+
+主要内容：
+
+1. 跳跃手感的改进(重力，跳跃向量等参数的调整)
+2. 移动手感的调整(加速度，减速度，旋转速度等参数的调整)
+3. 添加游戏手柄(Gamepad)输入的支持
+4. 画面效果改进 - 后处理(Post-Processing)
+5. 额外功能：滑铲(地面滑行)的实现
+6. 添加滑铲动画状态
+7. 两种不同类型的滑铲：
+   - 按住按键持续滑行，松开按键停止滑行
+   - 按下按键自动向前滑行，持续一小段时间停止滑行
+8. UE的射线检测LineTraceByChannel（蓝图与C++）
+9. 将参数默认值写入源码
+10. 总结与预告
